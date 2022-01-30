@@ -1,5 +1,6 @@
 package dio.springboot.personapi.service;
 
+import dio.springboot.personapi.exceptions.PersonNotFoundException;
 import dio.springboot.personapi.mapper.PersonMapper;
 import dio.springboot.personapi.dto.response.MessageResponseDTO;
 import dio.springboot.personapi.dto.request.PersonDTO;
@@ -9,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
 
+    
     private PersonRepository personRepository;
 
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
@@ -41,6 +44,14 @@ public class PersonService {
         return allPeople.stream()
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
+    }
 
+    //Optional indicação de o id solicitado esta ou nao presente em nossa API
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        Optional<Person> optionalPerson = personRepository.findById(id);
+        if(optionalPerson.isEmpty()){
+            throw new PersonNotFoundException(id);
+        }
+        return personMapper.toDTO(optionalPerson.get());
     }
 }
