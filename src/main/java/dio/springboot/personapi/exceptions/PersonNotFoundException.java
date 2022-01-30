@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class PersonNotFoundException extends Exception {
 
     public PersonNotFoundException(Long id) {
-        super("Not found a person that corresponds to ID number" + id);
+        super("Not found a person that corresponds to ID number: " + id);
 
     }
 }
