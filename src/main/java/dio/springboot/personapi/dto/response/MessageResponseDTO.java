@@ -1,4 +1,4 @@
-package dio.springboot.personapi.dto;
+package dio.springboot.personapi.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
